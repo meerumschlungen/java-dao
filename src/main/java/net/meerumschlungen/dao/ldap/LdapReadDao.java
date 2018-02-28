@@ -24,9 +24,10 @@ public interface LdapReadDao<T> extends LdapDao<T>, ReadDao<T> {
     public default List<T> read() {
         try {
             return Collections
-                    .list(this.getLdapContext().search(this.getSearchName(), this.getSearchFilter(),
-                            this.getSearchControls()))
-                    .stream().map(this.getSearchResultMapper()).collect(Collectors.toList());
+                    .list(this.getLdapContext().search(this.getSearchName(), this.getSearchFilter(), this.getSearchControls()))
+                    .stream()
+                    .map(this.getSearchResultMapper())
+                    .collect(Collectors.toList());
         } catch (NamingException e) {
             throw new RuntimeException(e);
         }
