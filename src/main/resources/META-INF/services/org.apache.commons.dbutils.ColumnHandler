@@ -1,0 +1,5 @@
+net.meerumschlungen.dao.jdbc.handlers.columns.ByteArrayColumnHandler
+net.meerumschlungen.dao.jdbc.handlers.columns.ByteBufferColumnHandler
+net.meerumschlungen.dao.jdbc.handlers.columns.DurationColumnHandler
+net.meerumschlungen.dao.jdbc.handlers.columns.LocalDateColumnHandler
+net.meerumschlungen.dao.jdbc.handlers.columns.UUIDColumnHandler
