@@ -15,12 +15,12 @@ public interface JdbcDeleteDao<T> extends JdbcDao<T>, DeleteDao<T> {
     /**
      * delete
      */
-    public Object[] getDeleteIdentifier(T dto);
+    public Object[] getDeleteIdentifier(final T dto);
     public default CharSequence getDeleteStatement() {
         return this.getStatementProvider().get(this.getDataSource(), this.getClass(), StatementType.DELETE).orElseThrow(UnsupportedOperationException::new);
     }
     @Override
-    public default int delete(T dto) {
+    public default int delete(final T dto) {
         try {
             QueryRunner run = new QueryRunner(this.getDataSource());
             return run.update(this.getDeleteStatement().toString(), this.getDeleteIdentifier(dto));
@@ -33,7 +33,7 @@ public interface JdbcDeleteDao<T> extends JdbcDao<T>, DeleteDao<T> {
         return this.delete(this.read());
     }
     @Override
-    public default int delete(Collection<T> dtos) {
+    public default int delete(final Collection<T> dtos) {
         try {
             QueryRunner run = new QueryRunner(this.getDataSource());
             return Arrays.stream(run.batch(this.getDeleteStatement().toString(), dtos.stream().map(this::getDeleteIdentifier).toArray(Object[][]::new))).sum();
@@ -42,7 +42,7 @@ public interface JdbcDeleteDao<T> extends JdbcDao<T>, DeleteDao<T> {
         }
     }
     @Override
-    public default int delete(Predicate<T> condition) {
+    public default int delete(final Predicate<T> condition) {
         return this.delete(this.read().stream().filter(condition).collect(Collectors.toList()));
     }
 }

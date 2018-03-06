@@ -22,7 +22,7 @@ public interface JdbcWriteDao<T> extends JdbcDao<T>, CreateDao<T>, UpdateDao<T>,
         return this.getStatementProvider().get(this.getDataSource(), this.getClass(), StatementType.INSERT).orElseThrow(UnsupportedOperationException::new);
     }
     @Override
-    public default int create(T dto) {
+    public default int create(final T dto) {
         try {
             QueryRunner run = new QueryRunner(this.getDataSource());
             return run.update(this.getInsertStatement().toString(), this.getInsertMapper().apply(dto));
@@ -31,7 +31,7 @@ public interface JdbcWriteDao<T> extends JdbcDao<T>, CreateDao<T>, UpdateDao<T>,
         }
     }
     @Override
-    public default int create(Collection<T> dtos) {
+    public default int create(final Collection<T> dtos) {
         try {
             QueryRunner run = new QueryRunner(this.getDataSource());
             return Arrays.stream(run.batch(this.getInsertStatement().toString(), dtos.stream().map(this.getInsertMapper()).toArray(Object[][]::new))).sum();
@@ -48,7 +48,7 @@ public interface JdbcWriteDao<T> extends JdbcDao<T>, CreateDao<T>, UpdateDao<T>,
         return this.getStatementProvider().get(this.getDataSource(), this.getClass(), StatementType.UPDATE).orElseThrow(UnsupportedOperationException::new);
     }
     @Override
-    public default int update(T dto) {
+    public default int update(final T dto) {
         try {
             QueryRunner run = new QueryRunner(this.getDataSource());
             return run.update(this.getUpdateStatement().toString(), this.getUpdateMapper().apply(dto));
@@ -57,7 +57,7 @@ public interface JdbcWriteDao<T> extends JdbcDao<T>, CreateDao<T>, UpdateDao<T>,
         }
     }
     @Override
-    public default int update(Collection<T> dtos) {
+    public default int update(final Collection<T> dtos) {
         try {
             QueryRunner run = new QueryRunner(this.getDataSource());
             return Arrays.stream(run.batch(this.getUpdateStatement().toString(), dtos.stream().map(this.getUpdateMapper()).toArray(Object[][]::new))).sum();
@@ -71,7 +71,7 @@ public interface JdbcWriteDao<T> extends JdbcDao<T>, CreateDao<T>, UpdateDao<T>,
      */
     public Function<T, Object[]> getReplaceMapper();
     @Override
-    public default int replace(Collection<T> dtos) {
+    public default int replace(final Collection<T> dtos) {
         try {
             QueryRunner run = new QueryRunner(this.getDataSource());
             Object[][] updParams = dtos.stream().map(this.getReplaceMapper()).toArray(Object[][]::new);
