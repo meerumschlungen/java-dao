@@ -9,6 +9,7 @@ import java.util.List;
 import org.apache.commons.dbutils.BasicRowProcessor;
 import org.apache.commons.dbutils.BeanProcessor;
 import org.apache.commons.dbutils.ResultSetHandler;
+import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 public class ResultSetHandlers {
@@ -37,6 +38,9 @@ public class ResultSetHandlers {
         }
     }
 
+    public static <T> ResultSetHandler<T> beanHandler(Class<T> type) {
+        return new BeanHandler<>(type, new BasicRowProcessor(new CustomBeanProcessor()));
+    }
     public static <T> ResultSetHandler<List<T>> beanListHandler(Class<T> type) {
         return new BeanListHandler<>(type, new BasicRowProcessor(new CustomBeanProcessor()));
     }
